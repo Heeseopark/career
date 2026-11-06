@@ -259,8 +259,8 @@ strong {
 .career-title {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.28rem 0.42rem;
+  align-items: center;
+  gap: 0.28rem 0.4rem;
   margin: 0;
   font-weight: 700;
   line-height: 1.45;
@@ -268,8 +268,9 @@ strong {
 
 .career-title .icon,
 .career-title .mark {
-  width: 1.15em;
-  height: 1.15em;
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
   align-self: center;
 }
 

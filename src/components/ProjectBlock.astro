@@ -1,17 +1,23 @@
 ---
+import type { MarkIcon } from '../lib/icons';
+import Icon from './Icon.astro';
 import ProjectItem from './ProjectItem.astro';
 
 interface Props {
   title: string;
   meta: string;
+  icon?: MarkIcon;
   items: { lines: string[] }[];
 }
 
-const { title, meta, items } = Astro.props;
+const { title, meta, icon, items } = Astro.props;
 ---
 
 <article class="project">
-  <h3>{title}</h3>
+  <h3 class="project-title">
+    {icon && <Icon name={icon} />}
+    <span>{title}</span>
+  </h3>
   <p class="meta">{meta}</p>
   <ul>
     {items.map((item) => <ProjectItem lines={item.lines} />)}

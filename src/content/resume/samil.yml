@@ -14,6 +14,7 @@ introduce:
 
 projects:
   - title: "알렌의 서재"
+    icon: book
     meta: "보건의료 교육 플랫폼 · 리비바이오 · 백엔드 개발 · 2024.05.~현재 · AI 기능 개발 2026.03.~"
     items:
       - lines:
@@ -62,6 +63,7 @@ projects:
           - "Ex) 결제, 이용권 구조 개편, 학습 모듈 분리, 데이터 이관, OpenSearch 검색 개선, SEO, 사이트맵, 소유권 lazy sync, 이론, 하이라이트 버전 관리, 이관."
 
   - title: "무물"
+    icon: chat
     meta: "AI 기반 수능 학습 앱 · 개인 · 기획·개발 · 2026.10 출시"
     items:
       - lines:
@@ -79,6 +81,7 @@ projects:
           - "지문 누락, 판독 불가 등 입력 오류 처리."
 
   - title: "교회 수양회 신청, 관리 전산화"
+    icon: people
     meta: "팀 · PO · 기획·백엔드·프론트엔드 개발·운영"
     items:
       - lines:
@@ -91,6 +94,7 @@ projects:
           - "이해관계자를 설득해 기존 운영 체계를 시스템으로 이관하고 **세 차례 수양회에 적용**."
 
   - title: "핸디버스"
+    icon: bus
     meta: "아이돌 콘서트 셔틀 플랫폼 · 팀 · 기획·디자인·개발 · 2023.12.~2024.05."
     items:
       - lines:
@@ -104,18 +108,23 @@ projects:
 
 career:
   - title: "**리비바이오 알렌의 서재 프로젝트 (24.05.~)**"
+    icon: book
     points:
       - text: "백엔드 개발 (FE 2명, BE 2명)"
       - text: "AI 기능 개발 (26.03.~): AI 채팅, RAG, Agent"
   - title: "**HandyBus 프로젝트 (23.12. ~ 24.05.)**"
+    icon: bus
     points:
       - text: "초기 창업 개발 합류"
       - text: "버스 대절 신청 **MVP 단독 개발**"
   - title: "**현우진T QA조교 (18.12. ~ 23.11.)**"
+    icon: qa
+    badge: "메가스터디"
     points:
       - text: "메가스터디 질문 게시판 질문 답변 조교"
       - text: "**12,000개** 질답 진행"
   - title: "**사랑의교회 대학3부 행정간사 (23.09. ~)**"
+    icon: clipboard
     points:
       - text: "200명 출석 부서 행정 총괄"
         children:
@@ -125,6 +134,7 @@ career:
           - "수양회 **전산 관리 시스템 개발 총괄**"
           - "1,500명 대 3개년, 3-500명 대 3개년 운영"
   - title: "**고려대학교 기계공학부 (19.03. ~ 24.02.)**"
+    icon: cap
     points:
       - text: "**소프트웨어벤쳐** 융합전공 수료"
       - text: "학점 **3.72** / 4.5"

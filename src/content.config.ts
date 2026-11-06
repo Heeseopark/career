@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { markIcons } from './lib/icons';
 
 const text = z.string().min(1);
 
@@ -23,6 +24,7 @@ const resume = defineCollection({
         z.object({
           title: text,
           meta: text,
+          icon: z.enum(markIcons).optional(),
           items: z.array(z.object({ lines: z.array(text).min(1) })).min(1),
         }),
       )
@@ -31,6 +33,8 @@ const resume = defineCollection({
       .array(
         z.object({
           title: text,
+          icon: z.enum(markIcons).optional(),
+          badge: text.optional(),
           points: z
             .array(
               z.object({

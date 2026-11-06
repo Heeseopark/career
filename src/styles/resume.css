@@ -148,12 +148,21 @@ h2 {
   border-top: 1px solid var(--line);
 }
 
-.project h3 {
+.project h3,
+.project-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   margin: 0;
   font-size: 1.14rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.35;
+}
+
+.project-title .icon {
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .meta {
@@ -238,8 +247,34 @@ strong {
   margin: 0.7rem 0 0.85rem;
 }
 
-.career > li > .line {
+.career-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.28rem 0.42rem;
+  margin: 0;
   font-weight: 700;
+  line-height: 1.45;
+}
+
+.career-title .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  align-self: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.04rem 0.45rem;
+  border: 1px solid #e3e0d8;
+  border-radius: 999px;
+  background: #f6f5f1;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.45;
 }
 
 .career ul {
@@ -384,8 +419,23 @@ a:focus-visible {
 
   .section-heading .icon,
   .stack dt .icon,
-  .contact .icon {
+  .contact .icon,
+  .project-title .icon,
+  .career-title .icon {
     display: none;
+  }
+
+  .badge {
+    margin-left: 0.15rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 9pt;
+    font-weight: 500;
+  }
+
+  .badge::before {
+    content: "· ";
   }
 
   a {

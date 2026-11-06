@@ -1,0 +1,129 @@
+---
+import { getEntry } from 'astro:content';
+import { richText } from '../lib/inline';
+import '../styles/resume.css';
+
+const entry = await getEntry('resume', 'samil');
+if (!entry) {
+  throw new Error('resume collection is missing the samil entry');
+}
+
+const resume = entry.data;
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const title = `${resume.name} | ${resume.role}`;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={resume.description} />
+    <meta name="theme-color" content="#FAFAF8" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={resume.description} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={canonical} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <h1>{resume.name}</h1>
+        <p class="role">{resume.role}</p>
+        <p class="contact">
+          <span class="contact-item"><a href={`mailto:${resume.email}`}>{resume.email}</a></span>
+          <span class="contact-item">{resume.phone}</span>
+          <span class="contact-item"><a href={resume.github} rel="me">{resume.githubLabel}</a></span>
+        </p>
+      </header>
+
+      <section id="introduce" class="introduce" aria-labelledby="introduce-heading">
+        <h2 id="introduce-heading">Introduce</h2>
+        {resume.introduce.map((paragraph) => <p set:html={richText(paragraph)} />)}
+      </section>
+
+      <section id="projects" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projects</h2>
+        {
+          resume.projects.map((project) => (
+            <article class="project">
+              <h3>{project.title}</h3>
+              <p class="meta">{project.meta}</p>
+              <ul>
+                {project.items.map((item) => (
+                  <li>
+                    {item.lines.map((line) => (
+                      <span class="line" set:html={richText(line)} />
+                    ))}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </section>
+
+      <div class="split">
+        <section id="career" aria-labelledby="career-heading">
+          <h2 id="career-heading">Career and Education</h2>
+          <ul class="career">
+            {
+              resume.career.map((item) => (
+                <li>
+                  <span class="line" set:html={richText(item.title)} />
+                  <ul>
+                    {item.points.map((point) => (
+                      <li>
+                        <span class="line" set:html={richText(point.text)} />
+                        {point.children && point.children.length > 0 && (
+                          <ul>
+                            {point.children.map((child) => (
+                              <li set:html={richText(child)} />
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <div class="split-side">
+          <section id="language" aria-labelledby="language-heading">
+            <h2 id="language-heading">Foreign Language</h2>
+            <div class="lang">
+              {resume.language.map((line) => <p set:html={richText(line)} />)}
+            </div>
+          </section>
+
+          <section id="stack" aria-labelledby="stack-heading">
+            <h2 id="stack-heading">Tech Stack</h2>
+            <dl class="stack">
+              {
+                resume.stack.map((item) => (
+                  <div>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+---
+import { richText } from '../lib/inline';
+
+interface CareerPoint {
+  text: string;
+  children?: string[];
+}
+
+interface Props {
+  items: { title: string; points: CareerPoint[] }[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="career">
+  {
+    items.map((item) => (
+      <li>
+        <span class="line" set:html={richText(item.title)} />
+        <ul>
+          {item.points.map((point) => (
+            <li>
+              <span class="line" set:html={richText(point.text)} />
+              {point.children && point.children.length > 0 && (
+                <ul>
+                  {point.children.map((child) => (
+                    <li set:html={richText(child)} />
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))
+  }
+</ul>

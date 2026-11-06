@@ -1,0 +1,19 @@
+---
+import ProjectItem from './ProjectItem.astro';
+
+interface Props {
+  title: string;
+  meta: string;
+  items: { lines: string[] }[];
+}
+
+const { title, meta, items } = Astro.props;
+---
+
+<article class="project">
+  <h3>{title}</h3>
+  <p class="meta">{meta}</p>
+  <ul>
+    {items.map((item) => <ProjectItem lines={item.lines} />)}
+  </ul>
+</article>

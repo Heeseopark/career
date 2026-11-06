@@ -1,6 +1,11 @@
 ---
 import { getEntry } from 'astro:content';
 import { richText } from '../lib/inline';
+import ResumeHeader from '../components/ResumeHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectBlock from '../components/ProjectBlock.astro';
+import CareerList from '../components/CareerList.astro';
+import TechStack from '../components/TechStack.astro';
 import '../styles/resume.css';
 
 const entry = await getEntry('resume', 'samil');
@@ -37,90 +42,42 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : As
   </head>
   <body>
     <main class="page">
-      <header>
-        <h1>{resume.name}</h1>
-        <p class="role">{resume.role}</p>
-        <p class="contact">
-          <span class="contact-item"><a href={`mailto:${resume.email}`}>{resume.email}</a></span>
-          <span class="contact-item">{resume.phone}</span>
-          <span class="contact-item"><a href={resume.github} rel="me">{resume.githubLabel}</a></span>
-        </p>
-      </header>
+      <ResumeHeader
+        name={resume.name}
+        role={resume.role}
+        email={resume.email}
+        phone={resume.phone}
+        github={resume.github}
+        githubLabel={resume.githubLabel}
+      />
 
       <section id="introduce" class="introduce" aria-labelledby="introduce-heading">
-        <h2 id="introduce-heading">Introduce</h2>
+        <SectionHeading id="introduce-heading" label="Introduce" icon="introduce" />
         {resume.introduce.map((paragraph) => <p set:html={richText(paragraph)} />)}
       </section>
 
       <section id="projects" aria-labelledby="projects-heading">
-        <h2 id="projects-heading">Projects</h2>
-        {
-          resume.projects.map((project) => (
-            <article class="project">
-              <h3>{project.title}</h3>
-              <p class="meta">{project.meta}</p>
-              <ul>
-                {project.items.map((item) => (
-                  <li>
-                    {item.lines.map((line) => (
-                      <span class="line" set:html={richText(line)} />
-                    ))}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))
-        }
+        <SectionHeading id="projects-heading" label="Projects" icon="projects" />
+        {resume.projects.map((project) => <ProjectBlock {...project} />)}
       </section>
 
       <div class="split">
         <section id="career" aria-labelledby="career-heading">
-          <h2 id="career-heading">Career and Education</h2>
-          <ul class="career">
-            {
-              resume.career.map((item) => (
-                <li>
-                  <span class="line" set:html={richText(item.title)} />
-                  <ul>
-                    {item.points.map((point) => (
-                      <li>
-                        <span class="line" set:html={richText(point.text)} />
-                        {point.children && point.children.length > 0 && (
-                          <ul>
-                            {point.children.map((child) => (
-                              <li set:html={richText(child)} />
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))
-            }
-          </ul>
+          <SectionHeading id="career-heading" label="Career and Education" icon="career" />
+          <CareerList items={resume.career} />
         </section>
 
         <div class="split-side">
           <section id="language" aria-labelledby="language-heading">
-            <h2 id="language-heading">Foreign Language</h2>
+            <SectionHeading id="language-heading" label="Foreign Language" icon="language" />
             <div class="lang">
               {resume.language.map((line) => <p set:html={richText(line)} />)}
             </div>
           </section>
 
           <section id="stack" aria-labelledby="stack-heading">
-            <h2 id="stack-heading">Tech Stack</h2>
-            <dl class="stack">
-              {
-                resume.stack.map((item) => (
-                  <div>
-                    <dt>{item.label}</dt>
-                    <dd>{item.value}</dd>
-                  </div>
-                ))
-              }
-            </dl>
+            <SectionHeading id="stack-heading" label="Tech Stack" icon="stack" />
+            <TechStack items={resume.stack} />
           </section>
         </div>
       </div>

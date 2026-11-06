@@ -1,0 +1,38 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  items: { label: string; value: string }[];
+}
+
+const categoryIcon = {
+  'Agent & LLM': 'agent',
+  Backend: 'backend',
+  'Data & Infrastructure': 'data',
+} as const;
+
+const { items } = Astro.props;
+---
+
+<dl class="stack">
+  {
+    items.map((item) => {
+      const icon = categoryIcon[item.label as keyof typeof categoryIcon];
+      return (
+        <div>
+          <dt>
+            {icon && <Icon name={icon} />}
+            <span>{item.label}</span>
+          </dt>
+          <dd>
+            <ul class="chips">
+              {item.value.split(',').map((chip) => (
+                <li>{chip.trim()}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      );
+    })
+  }
+</dl>

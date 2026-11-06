@@ -2,13 +2,15 @@ title: "Allen MCP"
 order: 2
 role: "사내 콘텐츠 작업을 AI 클라이언트에서 호출"
 diagram: |
-  flowchart LR
-    client[AI 클라이언트]
-    mcp[Allen MCP]
-    api[Backend API]
-    db[(DB)]
-    client --> mcp --> api --> db
-diagramCaption: "PKCE, 토큰 교환, scope는 Backend 인가에서 처리합니다."
+  flowchart TD
+    U[콘텐츠 제작자·운영자] --> C[AI 클라이언트]
+    C -->|MCP access token| M[Allen MCP]
+    M -->|사용자 토큰·서비스 인증| O[Backend OAuth]
+    O -->|API access token| M
+    M -->|API access token| A[Backend 업무 API]
+    O --> P[(PostgreSQL Grant)]
+    A --> D[(업무 DB·S3)]
+diagramCaption: "사용자는 AI 클라이언트로 연결하고, Backend OAuth가 인가한 뒤 MCP가 업무 API를 호출합니다."
 sections:
   overview:
     - "Claude Desktop 같은 AI 클라이언트에서 알렌 업무를 처리하도록 Allen MCP를 구현했습니다."

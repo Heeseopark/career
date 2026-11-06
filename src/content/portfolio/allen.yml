@@ -3,17 +3,30 @@ order: 1
 icon: allen
 role: "보건의료 교육 플랫폼 백엔드 · AI · 2024.05.~현재 (AI 단독 설계·상용 2026.03.~)"
 diagram: |
-  flowchart LR
-    client[클라이언트]
-    chat[멀티턴 채팅 서비스]
-    gate["허용 / 안내 / 차단"]
-    knn[OpenSearch kNN]
-    db[("DB 저장")]
-    client <--> chat
-    chat <--> gate
-    gate --> knn
-    chat --> db
-diagramCaption: "허용, 안내, 차단 뒤에서 검색과 대화 저장이 갈라집니다. 내부 주소는 없습니다."
+  sequenceDiagram
+    actor U as 사용자
+    participant S as 채팅 서비스
+    participant V as 프롬프트 검증
+    participant A as 멀티턴 Agent
+    participant T as 검색 tool
+    participant K as OpenSearch kNN
+    participant D as DB
+    U->>S: 질문 입력
+    S->>V: 최신 질문 분류
+    V-->>S: 허용·안내·차단 + 의학 키워드·검색문
+    alt 차단 또는 안내
+      S-->>U: 정책 안내 답변
+    else 허용
+      S->>A: 대화 이력·검증 결과 전달
+      A->>T: tool calling · 관련 콘텐츠 검색
+      T->>K: 키워드·검색문으로 vector RAG
+      K-->>T: 내부 의학 콘텐츠
+      T-->>A: 검색 결과 반환
+      A-->>S: assistant·tool 메시지
+      S->>D: 대화·tool-call 저장
+      S-->>U: 멀티턴 답변
+    end
+diagramCaption: "검증에서 키워드를 뽑고, 허용된 질문만 vector RAG tool-call로 이어집니다."
 sections:
   overview:
     - "리비바이오 알렌의 서재 백엔드를 맡았고, 2026년 3월부터 AI를 단독 설계·구현했습니다."

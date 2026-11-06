@@ -1,17 +1,30 @@
-# 박희서 이력서
+# 박희서 career
 
-삼일PwC AX Node 지원용 정적 이력서입니다. Astro로 `/samil/` 페이지만 빌드합니다.
+삼일PwC 지원용 이력서와 포트폴리오 정적 사이트입니다. Astro로 빌드합니다.
 
 ## 주소
 
-이 저장소(`Heeseopark/resume`)는 GitHub 프로젝트 페이지입니다.
+이 저장소(`Heeseopark/career`)는 GitHub 프로젝트 페이지입니다.
 
 | | URL |
 | --- | --- |
-| 사이트 | https://heeseopark.github.io/resume/ |
-| 이력서 | https://heeseopark.github.io/resume/samil/ |
+| 사이트 | https://heeseopark.github.io/career/ |
+| 이력서 | https://heeseopark.github.io/career/resume/samil/ |
+| 포트폴리오 | https://heeseopark.github.io/career/portfolio/ |
 
-`astro.config.mjs`의 `site`는 `https://heeseopark.github.io`, `base`는 `/resume` 입니다. 루트 `/`는 `/samil/`로 리다이렉트합니다. 다른 회사 페이지는 없습니다.
+`astro.config.mjs`의 `site`는 `https://heeseopark.github.io`, `base`는 `/career` 입니다.
+
+루트 `/`와 이전 경로 `/samil/`은 `/resume/samil/`로 이동합니다.
+
+포트폴리오 상세는 다음 순서입니다.
+
+1. `/portfolio/allen/`
+2. `/portfolio/allen-mcp/`
+3. `/portfolio/lis/`
+4. `/portfolio/mumul/`
+5. `/portfolio/sarang/`
+
+핸디버스 상세 페이지는 없습니다. 이력서 프로젝트에는 남아 있습니다.
 
 ## 로컬 실행
 
@@ -24,7 +37,7 @@ npm run build
 npm run preview
 ```
 
-개발 서버 기본 주소는 http://localhost:4321/resume/ 이고, 바로 이력서로 넘어갑니다. 이력서 본문은 `src/content/resume/samil.yml` 입니다.
+개발 서버 기본 주소는 http://localhost:4321/career/ 이고, 이력서로 넘어갑니다. 이력서 본문은 `src/content/resume/samil.yml`, 포트폴리오는 `src/content/portfolio/` 입니다.
 
 ## 배포
 

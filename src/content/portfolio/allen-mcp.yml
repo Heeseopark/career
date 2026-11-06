@@ -1,0 +1,23 @@
+title: "Allen MCP"
+order: 2
+role: "사내 콘텐츠 작업을 AI 클라이언트에서 호출 · 구현 완료"
+sections:
+  overview:
+    - "콘텐츠, 운영 담당자가 Claude Desktop 같은 AI 클라이언트에서 알렌 업무를 처리하도록 Allen MCP를 별도 저장소로 구현했습니다."
+    - "1차 기능은 PDF, CSV 문제 초안 업로드입니다. Slack에 상주하는 NanoClaw의 Athena 조회와는 경로를 나눴습니다. Athena는 사람 승인과 SQL 가드레일이 있는 조회이고, Allen MCP는 콘텐츠 작업용 도구입니다."
+  stack:
+    - "호출 경로는 AI 클라이언트, Allen MCP, Allen Backend API 순입니다. MCP는 데이터베이스에 직접 붙지 않습니다."
+    - "Backend에는 OAuth, OIDC 인증 서버를 두었습니다. discovery, JWKS, authorize, 로그인과 동의, token, refresh 회전과 재사용 탐지, token exchange, API Bearer, RBAC를 포함합니다."
+  problem:
+    - "외부 AI 클라이언트가 사내 API를 부르면 사용자 동의와 최소 권한이 필요합니다."
+    - "인가 코드를 다시 쓰거나 refresh를 재사용하는 경우를 막아야 하고, 클라이언트 비밀이 저장소에 남지 않아야 합니다."
+  decision:
+    - "공개 클라이언트는 PKCE로 인가합니다. Grant는 연결 하나를 단위로 둡니다."
+    - "refresh와 인가 코드는 해시로 저장합니다. 클라이언트 비밀은 환경 변수로만 주입하고, issuer 설정이 없으면 기동하지 않습니다."
+    - "권한 조회에 쓰는 DB 풀은 API용 풀과 분리했습니다."
+  outcome:
+    - "문제 업로드 tool, prompt, skill과 배포, 로그, 연동을 MCP 저장소에 구현했습니다."
+    - "로컬 회귀 2,948건으로 OAuth와 권한 계약을 검증했습니다. 운영 트래픽 수치는 여기 적지 않습니다."
+  retro:
+    - "업로드를 1차 범위로 닫으니 조회형 Slack Agent와 권한 모델이 섞이지 않았습니다."
+    - "다음 도구를 더할 때도 Backend API와 동의 화면만 확장하면 됩니다. 내부 주소와 실데이터는 이 페이지에 넣지 않습니다."

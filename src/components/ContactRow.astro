@@ -6,9 +6,10 @@ interface Props {
   phone: string;
   github: string;
   githubLabel: string;
+  portfolioHref: string;
 }
 
-const { email, phone, github, githubLabel } = Astro.props;
+const { email, phone, github, githubLabel, portfolioHref } = Astro.props;
 ---
 
 <p class="contact">
@@ -23,5 +24,9 @@ const { email, phone, github, githubLabel } = Astro.props;
   <span class="contact-item">
     <Icon name="github" />
     <a href={github} rel="me">{githubLabel}</a>
+  </span>
+  <span class="contact-item">
+    <Icon name="projects" />
+    <a href={portfolioHref}>포트폴리오</a>
   </span>
 </p>

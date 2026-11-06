@@ -345,6 +345,93 @@ a:focus-visible {
   outline-offset: 3px;
 }
 
+.kicker {
+  margin: 0 0 0.7rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.kicker a {
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.kicker a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.cards {
+  list-style: none;
+  margin: 1.4rem 0 0;
+  padding: 0;
+}
+
+.cards > li {
+  margin: 0;
+  padding: 0;
+}
+
+.cards > li::marker {
+  content: none;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 1.7rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  row-gap: 0.12rem;
+  align-items: center;
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.cards > li:last-child .card {
+  border-bottom: 1px solid var(--line);
+}
+
+.card .mark,
+.card .icon {
+  grid-row: span 2;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.card-title {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+
+.card:hover .card-title {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.card .meta {
+  margin: 0;
+}
+
+.case section p {
+  margin: 0.7rem 0;
+}
+
+.case-head {
+  margin-bottom: 0.4rem;
+}
+
+.case-head h1 {
+  font-size: 1.85rem;
+}
+
+.case-head .meta {
+  margin-top: 0.45rem;
+}
+
 @media screen and (max-width: 760px) {
   body {
     font-size: 15.5px;

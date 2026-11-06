@@ -1,4 +1,5 @@
 # Build the static site and deploy GitHub Pages.
+# https://heeseopark.github.io/career/
 # Triggers on push to main only. There is no pull request preview.
 name: Deploy to GitHub Pages
 

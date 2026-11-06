@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { markIcons } from './lib/icons';
+import { imageIconNames, markIcons } from './lib/icons';
 
 const text = z.string().min(1);
 
@@ -57,4 +57,27 @@ const resume = defineCollection({
   }),
 });
 
-export const collections = { resume };
+const paragraphs = z.array(text).min(1);
+
+const portfolio = defineCollection({
+  loader: glob({
+    pattern: '*.yml',
+    base: './src/content/portfolio',
+  }),
+  schema: z.object({
+    title: text,
+    order: z.number().int().positive(),
+    icon: z.enum(imageIconNames).optional(),
+    role: text,
+    sections: z.object({
+      overview: paragraphs,
+      stack: paragraphs,
+      problem: paragraphs,
+      decision: paragraphs,
+      outcome: paragraphs,
+      retro: paragraphs,
+    }),
+  }),
+});
+
+export const collections = { resume, portfolio };

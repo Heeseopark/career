@@ -1,0 +1,64 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import type { ImageIconName } from '../../lib/icons';
+import Editorial from '../../layouts/Editorial.astro';
+import Mark from '../../components/Mark.astro';
+import Icon from '../../components/Icon.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('portfolio');
+  return items.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'portfolio'>;
+}
+
+const { entry } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const hubHref = `${base}portfolio/`;
+
+const headings = [
+  ['overview', '개요'],
+  ['stack', '스택·아키텍처'],
+  ['problem', '핵심 문제'],
+  ['decision', '의사결정'],
+  ['outcome', '성과·검증'],
+  ['retro', '회고'],
+] as const;
+
+const fallbackIcon = {
+  'allen-mcp': 'agent',
+  lis: 'data',
+} as const;
+const glyph = fallbackIcon[entry.id as keyof typeof fallbackIcon];
+---
+
+<Editorial title={`${entry.data.title} | 포트폴리오`} description={entry.data.role}>
+  <main class="page case">
+    <p class="kicker"><a href={hubHref}>포트폴리오</a></p>
+    <header class="case-head">
+      <h1 class="project-title">
+        {entry.data.icon && <Mark name={entry.data.icon as ImageIconName} />}
+        {!entry.data.icon && glyph && <Icon name={glyph} />}
+        <span>{entry.data.title}</span>
+      </h1>
+      <p class="meta">{entry.data.role}</p>
+    </header>
+    {
+      headings.map(([key, label]) => (
+        <section>
+          <h2>{label}</h2>
+          {entry.data.sections[key].map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </section>
+      ))
+    }
+  </main>
+</Editorial>

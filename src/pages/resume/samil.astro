@@ -1,0 +1,86 @@
+---
+import { getEntry } from 'astro:content';
+import { richText } from '../../lib/inline';
+import ResumeHeader from '../../components/ResumeHeader.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ProjectBlock from '../../components/ProjectBlock.astro';
+import CareerList from '../../components/CareerList.astro';
+import TechStack from '../../components/TechStack.astro';
+import '../../styles/resume.css';
+
+const entry = await getEntry('resume', 'samil');
+if (!entry) {
+  throw new Error('resume collection is missing the samil entry');
+}
+
+const resume = entry.data;
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const title = `${resume.name} | ${resume.role}`;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={resume.description} />
+    <meta name="theme-color" content="#FAFAF8" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={resume.description} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={canonical} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+  </head>
+  <body>
+    <main class="page">
+      <ResumeHeader
+        name={resume.name}
+        role={resume.role}
+        email={resume.email}
+        phone={resume.phone}
+        github={resume.github}
+        githubLabel={resume.githubLabel}
+      />
+
+      <section id="introduce" class="introduce" aria-labelledby="introduce-heading">
+        <SectionHeading id="introduce-heading" label="Introduce" icon="introduce" />
+        {resume.introduce.map((paragraph) => <p set:html={richText(paragraph)} />)}
+      </section>
+
+      <section id="projects" aria-labelledby="projects-heading">
+        <SectionHeading id="projects-heading" label="Projects" icon="projects" />
+        {resume.projects.map((project) => <ProjectBlock {...project} />)}
+      </section>
+
+      <div class="split">
+        <section id="career" aria-labelledby="career-heading">
+          <SectionHeading id="career-heading" label="Career and Education" icon="career" />
+          <CareerList items={resume.career} />
+        </section>
+
+        <div class="split-side">
+          <section id="language" aria-labelledby="language-heading">
+            <SectionHeading id="language-heading" label="Foreign Language" icon="language" />
+            <div class="lang">
+              {resume.language.map((line) => <p set:html={richText(line)} />)}
+            </div>
+          </section>
+
+          <section id="stack" aria-labelledby="stack-heading">
+            <SectionHeading id="stack-heading" label="Tech Stack" icon="stack" />
+            <TechStack items={resume.stack} />
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

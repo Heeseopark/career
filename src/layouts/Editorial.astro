@@ -30,5 +30,28 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : As
   </head>
   <body>
     <slot />
+    <script>
+      import mermaid from 'mermaid';
+
+      const nodes = document.querySelectorAll('.mermaid');
+      if (nodes.length > 0) {
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          securityLevel: 'strict',
+          fontFamily: 'Pretendard, Apple SD Gothic Neo, sans-serif',
+          themeVariables: {
+            primaryColor: '#f6f5f1',
+            primaryTextColor: '#1c1c1a',
+            primaryBorderColor: '#1a365d',
+            lineColor: '#1a365d',
+            secondaryColor: '#fafaf8',
+            tertiaryColor: '#ffffff',
+            fontSize: '15px',
+          },
+        });
+        await mermaid.run({ nodes });
+      }
+    </script>
   </body>
 </html>

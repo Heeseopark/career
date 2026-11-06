@@ -28,6 +28,7 @@ const headings = [
   ['stack', '스택·아키텍처'],
   ['problem', '핵심 문제'],
   ['decision', '의사결정'],
+  ['ontology', '온톨로지 PoC'],
   ['outcome', '성과·검증'],
   ['retro', '회고'],
 ] as const;
@@ -51,14 +52,24 @@ const glyph = fallbackIcon[entry.id as keyof typeof fallbackIcon];
       <p class="meta">{entry.data.role}</p>
     </header>
     {
-      headings.map(([key, label]) => (
-        <section>
-          <h2>{label}</h2>
-          {entry.data.sections[key].map((paragraph) => (
-            <p>{paragraph}</p>
-          ))}
-        </section>
-      ))
+      headings.map(([key, label]) => {
+        const paragraphs = entry.data.sections[key];
+        if (!paragraphs || paragraphs.length === 0) return null;
+        return (
+          <section>
+            <h2>{label}</h2>
+            {paragraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {key === 'stack' && entry.data.diagram && (
+              <figure class="diagram">
+                <pre class="mermaid">{entry.data.diagram}</pre>
+                {entry.data.diagramCaption && <figcaption>{entry.data.diagramCaption}</figcaption>}
+              </figure>
+            )}
+          </section>
+        );
+      })
     }
   </main>
 </Editorial>

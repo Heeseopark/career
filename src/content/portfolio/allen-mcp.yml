@@ -1,23 +1,24 @@
 title: "Allen MCP"
 order: 2
-role: "사내 콘텐츠 작업을 AI 클라이언트에서 호출 · 구현 완료"
+role: "사내 콘텐츠 작업을 AI 클라이언트에서 호출"
+diagram: |
+  flowchart LR
+    client[AI 클라이언트]
+    mcp[Allen MCP]
+    api[Backend API]
+    db[(DB)]
+    client --> mcp --> api --> db
+diagramCaption: "PKCE, 토큰 교환, scope는 Backend 인가에서 처리합니다."
 sections:
   overview:
-    - "콘텐츠, 운영 담당자가 Claude Desktop 같은 AI 클라이언트에서 알렌 업무를 처리하도록 Allen MCP를 별도 저장소로 구현했습니다."
-    - "1차 기능은 PDF, CSV 문제 초안 업로드입니다. Slack에 상주하는 NanoClaw의 Athena 조회와는 경로를 나눴습니다. Athena는 사람 승인과 SQL 가드레일이 있는 조회이고, Allen MCP는 콘텐츠 작업용 도구입니다."
+    - "Claude Desktop 같은 AI 클라이언트에서 알렌 업무를 처리하도록 Allen MCP를 구현했습니다."
+    - "경로는 AI 클라이언트, MCP, Backend API, DB이며 기존 검증·권한·트랜잭션을 재사용합니다. skill·Desktop 기능만으로 끝나지 않는 사내 작업을 MCP로 붙이는 것이 목적입니다."
   stack:
-    - "호출 경로는 AI 클라이언트, Allen MCP, Allen Backend API 순입니다. MCP는 데이터베이스에 직접 붙지 않습니다."
-    - "Backend에는 OAuth, OIDC 인증 서버를 두었습니다. discovery, JWKS, authorize, 로그인과 동의, token, refresh 회전과 재사용 탐지, token exchange, API Bearer, RBAC를 포함합니다."
+    - "호출 흐름은 AI 클라이언트, Allen MCP, Allen Backend API, DB 입니다."
+    - "MCP는 DB에 직접 붙지 않고 Backend API만 호출합니다. Backend에 OAuth·OIDC 인가를 두고, MCP는 위임받은 범위의 API만 호출합니다."
   problem:
-    - "외부 AI 클라이언트가 사내 API를 부르면 사용자 동의와 최소 권한이 필요합니다."
-    - "인가 코드를 다시 쓰거나 refresh를 재사용하는 경우를 막아야 하고, 클라이언트 비밀이 저장소에 남지 않아야 합니다."
+    - "skill이나 Claude Desktop만으로는 사내 콘텐츠 업무를 끝까지 수행하기 어렵습니다."
+    - "새로 프론트 화면과 전용 엔드포인트를 만들고 운영하면 공수가 커지고, 브라우저 RBAC만으로는 도구별 최소 권한을 나누기 어렵습니다."
   decision:
-    - "공개 클라이언트는 PKCE로 인가합니다. Grant는 연결 하나를 단위로 둡니다."
-    - "refresh와 인가 코드는 해시로 저장합니다. 클라이언트 비밀은 환경 변수로만 주입하고, issuer 설정이 없으면 기동하지 않습니다."
-    - "권한 조회에 쓰는 DB 풀은 API용 풀과 분리했습니다."
-  outcome:
-    - "문제 업로드 tool, prompt, skill과 배포, 로그, 연동을 MCP 저장소에 구현했습니다."
-    - "로컬 회귀 2,948건으로 OAuth와 권한 계약을 검증했습니다. 운영 트래픽 수치는 여기 적지 않습니다."
-  retro:
-    - "업로드를 1차 범위로 닫으니 조회형 Slack Agent와 권한 모델이 섞이지 않았습니다."
-    - "다음 도구를 더할 때도 Backend API와 동의 화면만 확장하면 됩니다. 내부 주소와 실데이터는 이 페이지에 넣지 않습니다."
+    - "프론트·엔드포인트를 새로 운영하는 쪽보다 MCP 구축·운영 공수가 적다고 보고 MCP를 택했습니다."
+    - "AI 클라이언트에서 기존 Backend 권한·검증·트랜잭션을 재사용하도록 경로를 고정했습니다."

@@ -1,25 +1,41 @@
-title: "알렌의 서재"
+title: "알렌 AI"
 order: 1
 icon: allen
-role: "보건의료 교육 플랫폼 백엔드, AI · 2024.05.~현재"
+role: "보건의료 교육 플랫폼 백엔드 · AI · 2024.05.~현재 (AI 단독 설계·상용 2026.03.~)"
+diagram: |
+  flowchart LR
+    client[클라이언트]
+    chat[멀티턴 채팅 서비스]
+    gate["허용 / 안내 / 차단"]
+    knn[OpenSearch kNN]
+    db[("DB 저장")]
+    client <--> chat
+    chat <--> gate
+    gate --> knn
+    chat --> db
+diagramCaption: "허용, 안내, 차단 뒤에서 검색과 대화 저장이 갈라집니다. 내부 주소는 없습니다."
 sections:
   overview:
-    - "리비바이오 알렌의 서재에서 백엔드를 맡았고, 2026년 3월부터 AI 기능을 단독으로 설계, 구현했습니다."
-    - "중심 산출은 Vector RAG 멀티턴 AI 채팅입니다. 2026년 4월 상용 출시했습니다."
+    - "리비바이오 알렌의 서재 백엔드를 맡았고, 2026년 3월부터 AI를 단독 설계·구현했습니다."
+    - "중심은 내부 의학 문서를 연결한 멀티턴·vector RAG 채팅이며 2026년 4월 상용 배포했습니다."
   stack:
-    - "TypeScript, LangChain, OpenSearch kNN, Node.js, PostgreSQL을 사용했습니다."
-    - "채팅은 세션, 스트리밍, 재생성으로 구성하고, 의학 콘텐츠는 chunk 단위 임베딩 인덱스에 동기화했습니다. 모델은 A/B와 fallback chain을 둡니다."
+    - "TypeScript, LangChain, OpenSearch kNN, Node.js, PostgreSQL을 씁니다."
+    - "대화는 저장·복원·runtime·assistant/tool 저장 경계로 두고 tool-call을 트랜잭션으로 보존합니다."
+    - "본답변 직전 허용·안내·차단과 OpenSearch vector 주입을 둡니다."
   problem:
-    - "교육 콘텐츠를 대화에 넣으면서 재현성과 질문 범위를 같이 지켜야 했습니다."
-    - "검증용 컨텍스트와 응답용 컨텍스트를 분리하고, 문항 채팅 컨텍스트는 스냅샷으로 남겨 이력을 재현할 수 있게 했습니다."
+    - "범용 모델만으로는 내부 의학 문서에 접근할 수 없습니다."
+    - "문항 의존 질문에서 검색문이 질문·키워드에만 의존하면 context가 부족했고, Provider system-message 제약으로 안내 분기가 깨진 사례가 있었습니다."
   decision:
-    - "질문을 허용, 안내, 차단으로 나누는 사전 필터를 채팅 앞에 두었습니다."
-    - "AI LAB 문항, 해설 생성은 단계형 파이프라인(STEP)에서 tool 기반 Agent로 전환하고, 둘 중 선택해 실행할 수 있게 했습니다."
-    - "검색 본문은 HTML 대신 Markdown으로 넘겨 컨텍스트를 줄였습니다."
+    - "멀티턴과 vector RAG를 단독으로 설계·상용화했습니다."
+    - "Problem/Theory 채팅은 본답변·재생성에 직전 완료 질문·답변 한 쌍만 쓰도록 공통화했고, 관련 콘텐츠 HTML은 Markdown으로 바꿔 context를 줄였습니다."
+  ontology:
+    - "vector RAG의 유사도 한계를 보완하려고 node·edge와 QuerySpec을 직접 정하는 PoC를 진행했습니다."
+    - "동일 QuerySpec으로 RAG(theory top3)와 온톨로지(positive seed·negative 감점·1-hop)를 비교했고, 내분비 431문항·gold tag 582개 조건에서 Hit@3 +12.5~21.6%p, F1 +12.1~14.6%p였습니다."
+    - "관련 이론 retrieval 평가이며 정답률 평가가 아닙니다."
   outcome:
-    - "멀티턴 채팅을 상용 배포했습니다."
-    - "검색 컨텍스트를 Markdown으로 바꾼 뒤 context 길이는 약 53%, input token은 약 40% 줄었습니다."
-    - "국시 내분비 온톨로지 Graph 검색 PoC에서, 같은 키워드 추출 단계의 Vector RAG 대비 Hit@3 +12.5~21.6%p, F1 +12.1~14.6%p였습니다. gpt-5-nano 기준 Hit@3는 61.7%에서 74.2%로 올랐습니다."
+    - "멀티턴·vector RAG 채팅을 상용 배포했습니다."
+    - "HTML→Markdown 전환 후 context 길이는 약 53%, input token은 약 40% 줄었습니다."
+    - "온톨로지 수치는 위 통제 비교에 한정합니다."
   retro:
-    - "고정 평가셋, trace, 블라인드 비교를 요구사항으로 잡아야 검색 파라미터를 반복해서 고칠 수 있었습니다."
-    - "세부 수치와 화면 흐름은 이 페이지에 두고, 이력서는 초단문만 남겼습니다."
+    - "검색만으로 근거 연결이 부족한 구간이 남아, 온톨로지 방향을 설득해 Vector에서 Graph RAG로 개선하는 실험을 이어갔습니다."
+    - "대안으로 검색·프롬프트 데이터셋과 커스텀 지표를 고정해 반복 개선하는 길도 있습니다."

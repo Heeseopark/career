@@ -12,7 +12,8 @@
     "node": ">=22"
   },
   "dependencies": {
-    "astro": "^7.4.7"
+    "astro": "^7.4.7",
+    "mermaid": "^11.17.2"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

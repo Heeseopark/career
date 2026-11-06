@@ -69,13 +69,16 @@ const portfolio = defineCollection({
     order: z.number().int().positive(),
     icon: z.enum(imageIconNames).optional(),
     role: text,
+    diagram: z.string().optional(),
+    diagramCaption: z.string().optional(),
     sections: z.object({
       overview: paragraphs,
       stack: paragraphs,
       problem: paragraphs,
       decision: paragraphs,
-      outcome: paragraphs,
-      retro: paragraphs,
+      ontology: paragraphs.optional(),
+      outcome: paragraphs.optional(),
+      retro: paragraphs.optional(),
     }),
   }),
 });

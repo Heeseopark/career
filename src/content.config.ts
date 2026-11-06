@@ -34,7 +34,6 @@ const resume = defineCollection({
         z.object({
           title: text,
           icon: z.enum(markIcons).optional(),
-          badge: text.optional(),
           points: z
             .array(
               z.object({

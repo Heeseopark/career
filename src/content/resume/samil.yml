@@ -1,6 +1,5 @@
 # 삼일PwC AX Node 이력서. 강조는 **굵게** 로 표기합니다.
 # icon: allen, mumul, sarang, handybus, megastudy, korea 는 src/assets/icons PNG.
-# 현우진T의 메가스터디 글자는 badge 라벨입니다.
 name: "박희서"
 role: "삼일PwC AX Node AI Engineer"
 email: "heeseopark99@gmail.com"
@@ -121,7 +120,6 @@ career:
       - text: "버스 대절 신청 **MVP 단독 개발**"
   - title: "**현우진T QA조교 (18.12. ~ 23.11.)**"
     icon: megastudy
-    badge: "메가스터디"
     points:
       - text: "메가스터디 질문 게시판 질문 답변 조교"
       - text: "**12,000개** 질답 진행"

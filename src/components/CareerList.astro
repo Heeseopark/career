@@ -9,7 +9,7 @@ interface CareerPoint {
 }
 
 interface Props {
-  items: { title: string; icon?: MarkIcon; badge?: string; points: CareerPoint[] }[];
+  items: { title: string; icon?: MarkIcon; points: CareerPoint[] }[];
 }
 
 const { items } = Astro.props;
@@ -22,7 +22,6 @@ const { items } = Astro.props;
         <p class="career-title">
           {item.icon && <Mark name={item.icon} />}
           <span set:html={richText(item.title)} />
-          {item.badge && <span class="badge">{item.badge}</span>}
         </p>
         <ul>
           {item.points.map((point) => (

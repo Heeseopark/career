@@ -274,20 +274,6 @@ strong {
   align-self: center;
 }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.04rem 0.45rem;
-  border: 1px solid #e3e0d8;
-  border-radius: 999px;
-  background: #f6f5f1;
-  color: var(--muted);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.45;
-}
-
 .career ul {
   margin-top: 0.15rem;
   font-weight: 400;
@@ -436,19 +422,6 @@ a:focus-visible {
   .project-title .mark,
   .career-title .mark {
     display: none;
-  }
-
-  .badge {
-    margin-left: 0.15rem;
-    padding: 0;
-    border: 0;
-    background: none;
-    font-size: 9pt;
-    font-weight: 500;
-  }
-
-  .badge::before {
-    content: "· ";
   }
 
   a {

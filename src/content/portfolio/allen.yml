@@ -4,8 +4,7 @@ icon: allen
 role: "보건의료 교육 플랫폼 백엔드 · AI · 2024.05.~현재 (AI 단독 설계·상용 2026.03.~)"
 diagram: |
   flowchart TD
-    U[사용자 질문] --> S[채팅 서비스]
-    S --> V[프롬프트 검증]
+    U[사용자 질문] --> V[프롬프트 검증]
     V -->|허용·키워드·검색문| A[멀티턴 Agent]
     A -->|tool calling| T[검색 tool]
     T -->|vector RAG| K[OpenSearch kNN]

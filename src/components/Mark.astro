@@ -1,0 +1,13 @@
+---
+import { imageIcons } from '../lib/icon-images';
+import type { ImageIconName } from '../lib/icons';
+
+interface Props {
+  name: ImageIconName;
+}
+
+const { name } = Astro.props;
+const image = imageIcons[name];
+---
+
+<img class="mark" src={image.src} alt="" width="20" height="20" />

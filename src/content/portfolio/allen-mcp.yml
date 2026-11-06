@@ -1,0 +1,26 @@
+title: "Allen MCP"
+order: 2
+role: "사내 콘텐츠 작업을 AI 클라이언트에서 호출"
+diagram: |
+  flowchart TD
+    U[콘텐츠 제작자·운영자] --> C[AI 클라이언트]
+    C -->|MCP access token| M[Allen MCP]
+    M -->|사용자 토큰·서비스 인증| O[Backend OAuth]
+    O -->|API access token| M
+    M -->|API access token| A[Backend 업무 API]
+    O --> P[(PostgreSQL Grant)]
+    A --> D[(업무 DB·S3)]
+diagramCaption: "사용자는 AI 클라이언트로 연결하고, Backend OAuth가 인가한 뒤 MCP가 업무 API를 호출합니다."
+sections:
+  overview:
+    - "Claude Desktop 같은 AI 클라이언트에서 알렌 업무를 처리하도록 Allen MCP를 구현했습니다."
+    - "경로는 AI 클라이언트, MCP, Backend API, DB이며 기존 검증·권한·트랜잭션을 재사용합니다. skill·Desktop 기능만으로 끝나지 않는 사내 작업을 MCP로 붙이는 것이 목적입니다."
+  stack:
+    - "호출 흐름은 AI 클라이언트, Allen MCP, Allen Backend API, DB 입니다."
+    - "MCP는 DB에 직접 붙지 않고 Backend API만 호출합니다. Backend에 OAuth·OIDC 인가를 두고, MCP는 위임받은 범위의 API만 호출합니다."
+  problem:
+    - "skill이나 Claude Desktop만으로는 사내 콘텐츠 업무를 끝까지 수행하기 어렵습니다."
+    - "새로 프론트 화면과 전용 엔드포인트를 만들고 운영하면 공수가 커지고, 브라우저 RBAC만으로는 도구별 최소 권한을 나누기 어렵습니다."
+  decision:
+    - "프론트·엔드포인트를 새로 운영하는 쪽보다 MCP 구축·운영 공수가 적다고 보고 MCP를 택했습니다."
+    - "AI 클라이언트에서 기존 Backend 권한·검증·트랜잭션을 재사용하도록 경로를 고정했습니다."

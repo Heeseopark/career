@@ -1,0 +1,24 @@
+---
+import { richText } from '../lib/inline';
+
+interface Props {
+  lines: string[];
+}
+
+const { lines } = Astro.props;
+---
+
+<li>
+  {
+    lines.map((line, index) =>
+      index === 0 ? (
+        <span class="item-title" set:html={richText(line)} />
+      ) : (
+        <span
+          class:list={['item-detail', { 'item-example': line.trimStart().startsWith('Ex)') }]}
+          set:html={richText(line)}
+        />
+      )
+    )
+  }
+</li>

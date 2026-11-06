@@ -1,0 +1,40 @@
+title: "알렌 AI"
+order: 1
+icon: allen
+role: "보건의료 교육 플랫폼 백엔드 · AI · 2024.05.~현재 (AI 단독 설계·상용 2026.03.~)"
+diagram: |
+  flowchart TD
+    U[사용자 질문] --> V[프롬프트 검증]
+    V -->|허용·키워드·검색문| A[멀티턴 Agent]
+    A -->|tool calling| T[검색 tool]
+    T -->|vector RAG| K[OpenSearch kNN]
+    K -->|내부 의학 콘텐츠| T
+    T --> A
+    A --> D[(DB 대화·tool-call)]
+    A --> R[멀티턴 답변]
+diagramCaption: "프롬프트 검증으로 키워드를 뽑고, 허용된 질문만 vector RAG tool-call로 이어집니다."
+sections:
+  overview:
+    - "리비바이오 알렌의 서재 백엔드를 맡았고, 2026년 3월부터 AI를 단독 설계·구현했습니다."
+    - "중심은 내부 의학 문서를 연결한 멀티턴·vector RAG 채팅이며 2026년 4월 상용 배포했습니다."
+  stack:
+    - "TypeScript, LangChain, OpenSearch kNN, Node.js, PostgreSQL을 씁니다."
+    - "대화는 저장·복원·runtime·assistant/tool 저장 경계로 두고 tool-call을 트랜잭션으로 보존합니다."
+    - "본답변 직전 허용·안내·차단과 OpenSearch vector 주입을 둡니다."
+  problem:
+    - "범용 모델만으로는 내부 의학 문서에 접근할 수 없습니다."
+    - "문항 의존 질문에서 검색문이 질문·키워드에만 의존하면 context가 부족했고, Provider system-message 제약으로 안내 분기가 깨진 사례가 있었습니다."
+  decision:
+    - "멀티턴과 vector RAG를 단독으로 설계·상용화했습니다."
+    - "Problem/Theory 채팅은 본답변·재생성에 직전 완료 질문·답변 한 쌍만 쓰도록 공통화했고, 관련 콘텐츠 HTML은 Markdown으로 바꿔 context를 줄였습니다."
+  ontology:
+    - "vector RAG의 유사도 한계를 보완하려고 node·edge와 QuerySpec을 직접 정하는 PoC를 진행했습니다."
+    - "동일 QuerySpec으로 RAG(theory top3)와 온톨로지(positive seed·negative 감점·1-hop)를 비교했고, 내분비 431문항·gold tag 582개 조건에서 Hit@3 +12.5~21.6%p, F1 +12.1~14.6%p였습니다."
+    - "관련 이론 retrieval 평가이며 정답률 평가가 아닙니다."
+  outcome:
+    - "멀티턴·vector RAG 채팅을 상용 배포했습니다."
+    - "HTML→Markdown 전환 후 context 길이는 약 53%, input token은 약 40% 줄었습니다."
+    - "온톨로지 수치는 위 통제 비교에 한정합니다."
+  retro:
+    - "검색만으로 근거 연결이 부족한 구간이 남아, 온톨로지 방향을 설득해 Vector에서 Graph RAG로 개선하는 실험을 이어갔습니다."
+    - "대안으로 검색·프롬프트 데이터셋과 커스텀 지표를 고정해 반복 개선하는 길도 있습니다."

@@ -1,0 +1,34 @@
+title: "LIS"
+order: 3
+role: "학습 이벤트 수집·적재 · SQS, Lambda, S3, Athena · 상용 배포"
+diagram: |
+  flowchart LR
+    web[웹 이벤트]
+    api[수집 API]
+    sqs[SQS]
+    landing[Landing Lambda]
+    raw[Raw S3]
+    dlq[DLQ]
+    web --> api --> sqs --> landing --> raw
+    landing -->|실패 후 재시도| dlq
+diagramCaption: "버킷과 계정 이름은 적지 않습니다. 실패는 재시도 뒤 DLQ로 갑니다."
+sections:
+  overview:
+    - "알렌의 서재 학습 행동을 분석하려고 이벤트 수집 API와 적재 파이프라인을 직접 개발해 상용에 배포했습니다."
+    - "GA와 비슷한 수집을 인하우스로 두어 학습 분석·추천·개선 여부 분석의 기반을 만드는 것이 목적입니다."
+    - "알렌 AI RAG·Allen MCP와는 목적·흐름을 분리합니다."
+  stack:
+    - "웹 이벤트, 인증 수집 API, SQS, Landing Lambda, Raw S3 흐름입니다."
+    - "Foundation, Ingestion, Landing으로 저장소·큐·DLQ·실행을 나눕니다. Backend는 transport·인증을, Landing은 이벤트 명세의 최종 runtime 검증을 맡습니다."
+    - "메시지 안 이벤트가 모두 유효해야 Raw에 저장되며, 실패는 재시도 후 DLQ로 갑니다."
+  problem:
+    - "학습 행동과 개선 여부를 볼 수집 기반이 필요했습니다."
+    - "인프라만 있어도 환경 키 매핑이 없으면 수집이 실패하고, userId 타입 혼용은 Raw 적재를 깨뜨렸습니다."
+    - "Backend 접수 성공은 SQS 수신일 뿐 Raw 저장이 아니며, Landing 배포본과 계약이 어긋나면 정상 요청도 DLQ로 갈 수 있습니다."
+  decision:
+    - "GA 대신 커스텀 수집을 택했습니다. 스키마·보관·조회 자유도가 필요하고, AI로 인하우스 구현이 가능하다는 판단이 배경입니다."
+    - "API는 접수만, 적재는 비동기로 두며 원본 저장과 분석 조회를 분리했습니다. 이벤트 검증은 Landing을 최종 경계로 유지합니다."
+  outcome:
+    - "상용 수집 스택을 올린 뒤 SQS, Lambda, Raw S3 저장을 확인했습니다."
+    - "userId 타입 수정을 테섭·상용에 반영했습니다."
+    - "호출량·비용은 공개하지 않으며 소량 DLQ 사례를 처리량으로 쓰지 않습니다."

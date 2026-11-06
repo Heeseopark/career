@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  email: string;
+  phone: string;
+  github: string;
+  githubLabel: string;
+  portfolioHref: string;
+}
+
+const { email, phone, github, githubLabel, portfolioHref } = Astro.props;
+---
+
+<p class="contact">
+  <span class="contact-item">
+    <Icon name="mail" />
+    <a href={`mailto:${email}`}>{email}</a>
+  </span>
+  <span class="contact-item">
+    <Icon name="phone" />
+    <span>{phone}</span>
+  </span>
+  <span class="contact-item">
+    <Icon name="github" />
+    <a href={github} rel="me">{githubLabel}</a>
+  </span>
+  <span class="contact-item">
+    <Icon name="projects" />
+    <a href={portfolioHref}>포트폴리오</a>
+  </span>
+</p>

@@ -1,6 +1,6 @@
 # 삼일PwC AX Node 이력서. 강조는 **굵게** 로 표기합니다.
-# icon: allen, mumul, sarang, handybus 는 src/assets/icons PNG.
-# icon: qa, clipboard, cap 은 선 SVG. 메가스터디는 badge 라벨만 사용합니다.
+# icon: allen, mumul, sarang, handybus, megastudy, korea 는 src/assets/icons PNG.
+# 현우진T의 메가스터디 글자는 badge 라벨입니다.
 name: "박희서"
 role: "삼일PwC AX Node AI Engineer"
 email: "heeseopark99@gmail.com"
@@ -120,13 +120,13 @@ career:
       - text: "초기 창업 개발 합류"
       - text: "버스 대절 신청 **MVP 단독 개발**"
   - title: "**현우진T QA조교 (18.12. ~ 23.11.)**"
-    icon: qa
+    icon: megastudy
     badge: "메가스터디"
     points:
       - text: "메가스터디 질문 게시판 질문 답변 조교"
       - text: "**12,000개** 질답 진행"
   - title: "**사랑의교회 대학3부 행정간사 (23.09. ~)**"
-    icon: clipboard
+    icon: sarang
     points:
       - text: "200명 출석 부서 행정 총괄"
         children:
@@ -136,7 +136,7 @@ career:
           - "수양회 **전산 관리 시스템 개발 총괄**"
           - "1,500명 대 3개년, 3-500명 대 3개년 운영"
   - title: "**고려대학교 기계공학부 (19.03. ~ 24.02.)**"
-    icon: cap
+    icon: korea
     points:
       - text: "**소프트웨어벤쳐** 융합전공 수료"
       - text: "학점 **3.72** / 4.5"

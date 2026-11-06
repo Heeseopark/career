@@ -1,7 +1,7 @@
 ---
 import type { MarkIcon } from '../lib/icons';
 import { richText } from '../lib/inline';
-import Icon from './Icon.astro';
+import Mark from './Mark.astro';
 
 interface CareerPoint {
   text: string;
@@ -20,7 +20,7 @@ const { items } = Astro.props;
     items.map((item) => (
       <li>
         <p class="career-title">
-          {item.icon && <Icon name={item.icon} />}
+          {item.icon && <Mark name={item.icon} />}
           <span set:html={richText(item.title)} />
           {item.badge && <span class="badge">{item.badge}</span>}
         </p>

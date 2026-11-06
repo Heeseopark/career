@@ -160,9 +160,18 @@ h2 {
   line-height: 1.35;
 }
 
-.project-title .icon {
-  width: 1.05rem;
-  height: 1.05rem;
+.project-title .icon,
+.project-title .mark {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.mark {
+  display: block;
+  flex: none;
+  align-self: center;
+  object-fit: contain;
+  border-radius: 0.22em;
 }
 
 .meta {
@@ -257,9 +266,10 @@ strong {
   line-height: 1.45;
 }
 
-.career-title .icon {
-  width: 0.95rem;
-  height: 0.95rem;
+.career-title .icon,
+.career-title .mark {
+  width: 1.15em;
+  height: 1.15em;
   align-self: center;
 }
 
@@ -421,7 +431,9 @@ a:focus-visible {
   .stack dt .icon,
   .contact .icon,
   .project-title .icon,
-  .career-title .icon {
+  .career-title .icon,
+  .project-title .mark,
+  .career-title .mark {
     display: none;
   }
 
